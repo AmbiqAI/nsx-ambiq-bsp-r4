@@ -1,0 +1,36 @@
+schema_version: 1
+
+module:
+  name: nsx-ambiq-bsp-r4
+  type: backend_specific
+  category: sdk_component
+  version: "0.1.0"
+
+support:
+  ambiqsuite: true
+  zephyr: false
+
+build:
+  cmake:
+    package: nsx_board_apollo4p_evb
+    targets:
+      - nsx::ambiq_bsp
+
+depends:
+  required:
+    - nsx-ambiqsuite-r4
+    - nsx-ambiq-hal-r4
+  optional: []
+
+compatibility:
+  boards:
+    - apollo4l_evb
+    - apollo4l_blue_evb
+    - apollo4p_evb
+    - apollo4p_blue_kbr_evb
+    - apollo4p_blue_kxr_evb
+  socs:
+    - apollo4l
+    - apollo4p
+  toolchains:
+    - arm-none-eabi-gcc

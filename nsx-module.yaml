@@ -10,6 +10,24 @@ support:
   ambiqsuite: true
   zephyr: false
 
+summary: Curated BSP wrapper surface for board-support integration on AmbiqSuite r4 targets.
+
+capabilities:
+  - bsp_wrapper
+  - board_support
+  - sdk_component
+
+use_cases:
+  - board-support integration for r4 targets
+  - stable BSP access without wiring raw SDK board files by hand
+  - dependency for board-oriented application bring-up on r4
+
+agent_keywords:
+  - bsp
+  - board support
+  - r4
+  - wrapper
+
 build:
   cmake:
     package: nsx_board_apollo4p_evb

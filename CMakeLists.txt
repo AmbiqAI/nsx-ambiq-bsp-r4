@@ -14,7 +14,18 @@ endif()
 option(NSX_AMBIQSUITE_USE_PREBUILT "Use prebuilt AmbiqSuite static libraries" ON)
 
 set(NSX_AMBIQ_INSTALL_BASE "${CMAKE_INSTALL_INCLUDEDIR}/nsx/ambiqsuite/${NSX_AMBIQSUITE_VERSION}")
-set(NSX_BSP_LIB_DEFAULT "${NSX_AMBIQSUITE_ROOT}/lib/${NSX_AMBIQ_PART_NAME}/evb/libam_bsp.a")
+
+# Select the correct prebuilt archive for the active toolchain.
+if(NSX_TOOLCHAIN_FAMILY STREQUAL "armclang")
+    set(NSX_BSP_LIB_DEFAULT "${NSX_AMBIQSUITE_ROOT}/lib/${NSX_AMBIQ_PART_NAME}/evb/libam_bsp.lib")
+elseif(NSX_TOOLCHAIN_FAMILY STREQUAL "atfe")
+    # ATFE-specific prebuilts are not yet available; fall back to the
+    # GCC-built archive which is AAPCS-compatible.
+    set(NSX_BSP_LIB_DEFAULT "${NSX_AMBIQSUITE_ROOT}/lib/${NSX_AMBIQ_PART_NAME}/evb/libam_bsp.a")
+    message(STATUS "ns-ambiq-bsp-r4: ATFE prebuilt not available, using GCC variant (AAPCS-compatible)")
+else()
+    set(NSX_BSP_LIB_DEFAULT "${NSX_AMBIQSUITE_ROOT}/lib/${NSX_AMBIQ_PART_NAME}/evb/libam_bsp.a")
+endif()
 set(NSX_BSP_LIB "${NSX_BSP_LIB_DEFAULT}" CACHE FILEPATH "Path to AmbiqSuite BSP static library")
 
 add_library(nsx_ambiq_bsp INTERFACE)
